@@ -1,0 +1,19 @@
+# Use a basic Debian-based image with build tools installed
+FROM ubuntu:20.04
+
+# Install necessary build tools (g++ and make)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# Copy the C++ source code to the container
+COPY custom_payload_handler.cpp .
+
+# Compile the C++ program
+RUN g++ -o custom_payload_handler custom_payload_handler.cpp
+
+# Command to run the program
+CMD ["./custom_payload_handler", "inject react specific payload"]
